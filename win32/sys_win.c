@@ -603,6 +603,17 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 
 	global_hInstance = hInstance;
 
+	// TODO: DPI awareness context
+
+	// NOTE: Console
+	AllocConsole();
+	freopen("conin$", "r", stdin);
+	freopen("conout$", "w", stdout);
+	freopen("conout$", "w", stderr);
+	auto consoleHandle = GetConsoleWindow();
+	MoveWindow(consoleHandle, 1, 1, 680, 480, 1);
+	printf("[sys_win.c] Console initialized.\n");
+
 	ParseCommandLine (lpCmdLine);
 
 	// if we find the CD, add a +set cddir xxx command line

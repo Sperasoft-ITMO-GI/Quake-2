@@ -621,6 +621,8 @@ qboolean VID_LoadRefresh( char *name )
 			vidref_val = VIDREF_GL;
 		else if(!strcmp(vid_ref->string, "soft"))
 			vidref_val = VIDREF_SOFT;
+		else if (!strcmp(vid_ref->string, "dx12"))
+			vidref_val = VIDREF_DX12;
 	}
 //PGM
 //======
@@ -668,6 +670,8 @@ void VID_CheckChanges (void)
 		vid_fullscreen->modified = true;
 		cl.refresh_prepped = false;
 		cls.disable_screen = true;
+
+		// TODO: what is this happening?
 
 		Com_sprintf( name, sizeof(name), "ref_%s.dll", vid_ref->string );
 		if ( !VID_LoadRefresh( name ) )
