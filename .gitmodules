@@ -1,0 +1,3 @@
+[submodule "ref_dx12"]
+	path = ref_dx12
+	url = https://github.com/Sperasoft-ITMO-GI/ref_dx12.git
