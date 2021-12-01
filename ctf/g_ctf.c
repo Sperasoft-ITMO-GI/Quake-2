@@ -202,7 +202,7 @@ void stuffcmd(edict_t *ent, char *s)
 {
    	gi.WriteByte (11);	        
 	gi.WriteString (s);
-    gi.unicast (ent, true);	
+    gi.unicast (ent, True);	
 }
 
 /*--------------------------------------------------------------------------*/
@@ -272,7 +272,7 @@ static qboolean loc_CanSee (edict_t *targ, edict_t *inflictor)
 
 // bmodels need special checking because their origin is 0,0,0
 	if (targ->movetype == MOVETYPE_PUSH)
-		return false; // bmodels not supported
+		return False; // bmodels not supported
 
 	loc_buildboxpoints(targpoints, targ->s.origin, targ->mins, targ->maxs);
 	
@@ -282,10 +282,10 @@ static qboolean loc_CanSee (edict_t *targ, edict_t *inflictor)
 	for (i = 0; i < 8; i++) {
 		trace = gi.trace (viewpoint, vec3_origin, vec3_origin, targpoints[i], inflictor, MASK_SOLID);
 		if (trace.fraction == 1.0)
-			return true;
+			return True;
 	}
 
-	return false;
+	return False;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -728,7 +728,7 @@ qboolean CTFPickup_Flag(edict_t *ent, edict_t *other)
 		ctf_team = CTF_TEAM2;
 	else {
 		gi.cprintf(ent, PRINT_HIGH, "Don't know what team the flag is on.\n");
-		return false;
+		return False;
 	}
 
 	// same team, if the flag at base, check to he has the enemy flag
@@ -789,9 +789,9 @@ qboolean CTFPickup_Flag(edict_t *ent, edict_t *other)
 				}
 
 				CTFResetFlags();
-				return false;
+				return False;
 			}
-			return false; // its at home base already
+			return False; // its at home base already
 		}	
 		// hey, its not home.  return it by teleporting it back
 		gi.bprintf(PRINT_HIGH, "%s returned the %s flag!\n", 
@@ -799,9 +799,9 @@ qboolean CTFPickup_Flag(edict_t *ent, edict_t *other)
 		other->client->resp.score += CTF_RECOVERY_BONUS;
 		other->client->resp.ctf_lastreturnedflag = level.time;
 		gi.sound (ent, CHAN_RELIABLE+CHAN_NO_PHS_ADD+CHAN_VOICE, gi.soundindex("ctf/flagret.wav"), 1, ATTN_NONE, 0);
-		//CTFResetFlag will remove this entity!  We must return false
+		//CTFResetFlag will remove this entity!  We must return False
 		CTFResetFlag(ctf_team);
-		return false;
+		return False;
 	}
 
 	// hey, its not our flag, pick it up
@@ -820,7 +820,7 @@ qboolean CTFPickup_Flag(edict_t *ent, edict_t *other)
 		ent->svflags |= SVF_NOCLIENT;
 		ent->solid = SOLID_NOT;
 	}
-	return true;
+	return True;
 }
 
 static void CTFDropFlagTouch(edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *surf)
@@ -878,7 +878,7 @@ qboolean CTFDrop_Flag(edict_t *ent, gitem_t *item)
 		gi.cprintf(ent, PRINT_HIGH, "Only lusers drop flags.\n");
 	else
 		gi.cprintf(ent, PRINT_HIGH, "Winners don't drop flags.\n");
-	return false;
+	return False;
 }
 
 static void CTFFlagThink(edict_t *ent)
@@ -967,10 +967,10 @@ void CTFID_f (edict_t *ent)
 {
 	if (ent->client->resp.id_state) {
 		gi.cprintf(ent, PRINT_HIGH, "Disabling player identication display.\n");
-		ent->client->resp.id_state = false;
+		ent->client->resp.id_state = False;
 	} else {
 		gi.cprintf(ent, PRINT_HIGH, "Activating player identication display.\n");
-		ent->client->resp.id_state = true;
+		ent->client->resp.id_state = True;
 	}
 }
 
@@ -1829,7 +1829,7 @@ qboolean CTFPickup_Tech (edict_t *ent, edict_t *other)
 		if ((tech = FindItemByClassname(tnames[i])) != NULL &&
 			other->client->pers.inventory[ITEM_INDEX(tech)]) {
 			CTFHasTech(other);
-			return false; // has this one
+			return False; // has this one
 		}
 		i++;
 	}
@@ -1837,7 +1837,7 @@ qboolean CTFPickup_Tech (edict_t *ent, edict_t *other)
 	// client only gets one tech
 	other->client->pers.inventory[ITEM_INDEX(ent->item)]++;
 	other->client->ctf_regentime = level.time;
-	return true;
+	return True;
 }
 
 static void SpawnTech(gitem_t *item, edict_t *spot);
@@ -2038,9 +2038,9 @@ qboolean CTFApplyStrengthSound(edict_t *ent)
 			else
 				gi.sound(ent, CHAN_VOICE, gi.soundindex("ctf/tech2.wav"), volume, ATTN_NORM, 0);
 		}
-		return true;
+		return True;
 	}
-	return false;
+	return False;
 }
 
 
@@ -2052,8 +2052,8 @@ qboolean CTFApplyHaste(edict_t *ent)
 		tech = FindItemByClassname("item_tech3");
 	if (tech && ent->client &&
 		ent->client->pers.inventory[ITEM_INDEX(tech)])
-		return true;
-	return false;
+		return True;
+	return False;
 }
 
 void CTFApplyHasteSound(edict_t *ent)
@@ -2077,7 +2077,7 @@ void CTFApplyHasteSound(edict_t *ent)
 void CTFApplyRegeneration(edict_t *ent)
 {
 	static gitem_t *tech = NULL;
-	qboolean noise = false;
+	qboolean noise = False;
 	gclient_t *client;
 	int index;
 	float volume = 1.0;
@@ -2099,7 +2099,7 @@ void CTFApplyRegeneration(edict_t *ent)
 				if (ent->health > 150)
 					ent->health = 150;
 				client->ctf_regentime += 0.5;
-				noise = true;
+				noise = True;
 			}
 			index = ArmorIndex (ent);
 			if (index && client->pers.inventory[index] < 150) {
@@ -2107,7 +2107,7 @@ void CTFApplyRegeneration(edict_t *ent)
 				if (client->pers.inventory[index] > 150)
 					client->pers.inventory[index] = 150;
 				client->ctf_regentime += 0.5;
-				noise = true;
+				noise = True;
 			}
 		}
 		if (noise && ent->client->ctf_techsndtime < level.time) {
@@ -2125,8 +2125,8 @@ qboolean CTFHasRegeneration(edict_t *ent)
 		tech = FindItemByClassname("item_tech4");
 	if (tech && ent->client &&
 		ent->client->pers.inventory[ITEM_INDEX(tech)])
-		return true;
-	return false;
+		return True;
+	return False;
 }
 
 /*
@@ -2183,7 +2183,7 @@ static void CTFSay_Team_Location(edict_t *who, char *buf)
 	gitem_t *item;
 	int nearteam = -1;
 	edict_t *flag1, *flag2;
-	qboolean hotsee = false;
+	qboolean hotsee = False;
 	qboolean cansee;
 
 	while ((what = loc_findradius(what, who->s.origin, 1024)) != NULL) {
@@ -2196,7 +2196,7 @@ static void CTFSay_Team_Location(edict_t *who, char *buf)
 		// something we can see get priority over something we can't
 		cansee = loc_CanSee(what, who);
 		if (cansee && !hotsee) {
-			hotsee = true;
+			hotsee = True;
 			hotindex = loc_names[i].priority;
 			hot = what;
 			VectorSubtract(what->s.origin, who->s.origin, v);
@@ -2534,27 +2534,27 @@ qboolean CTFBeginElection(edict_t *ent, elect_t type, char *msg)
 
 	if (electpercentage->value == 0) {
 		gi.cprintf(ent, PRINT_HIGH, "Elections are disabled, only an admin can process this action.\n");
-		return false;
+		return False;
 	}
 
 
 	if (ctfgame.election != ELECT_NONE) {
 		gi.cprintf(ent, PRINT_HIGH, "Election already in progress.\n");
-		return false;
+		return False;
 	}
 
 	// clear votes
 	count = 0;
 	for (i = 1; i <= maxclients->value; i++) {
 		e = g_edicts + i;
-		e->client->resp.voted = false;
+		e->client->resp.voted = False;
 		if (e->inuse)
 			count++;
 	}
 
 	if (count < 2) {
 		gi.cprintf(ent, PRINT_HIGH, "Not enough players for election.\n");
-		return false;
+		return False;
 	}
 
 	ctfgame.etarget = ent;
@@ -2570,7 +2570,7 @@ qboolean CTFBeginElection(edict_t *ent, elect_t type, char *msg)
 	gi.bprintf(PRINT_HIGH, "Votes: %d  Needed: %d  Time left: %ds\n", ctfgame.evotes, ctfgame.needvotes,
 		(int)(ctfgame.electtime - level.time));
 
-	return true;
+	return True;
 }
 
 void DoRespawn (edict_t *ent);
@@ -2593,7 +2593,7 @@ void CTFResetAllPlayers(void)
 		CTFDeadDropTech(ent);
 
 		ent->client->resp.ctf_team = CTF_NOTEAM;
-		ent->client->resp.ready = false;
+		ent->client->resp.ready = False;
 
 		ent->svflags = 0;
 		ent->flags &= ~FL_GODMODE;
@@ -2724,9 +2724,9 @@ qboolean CTFNextMap(void)
 	if (ctfgame.match == MATCH_POST) {
 		ctfgame.match = MATCH_SETUP;
 		CTFResetAllPlayers();
-		return true;
+		return True;
 	}
-	return false;
+	return False;
 }
 
 void CTFWinElection(void)
@@ -2741,7 +2741,7 @@ void CTFWinElection(void)
 		break;
 
 	case ELECT_ADMIN :
-		ctfgame.etarget->client->resp.admin = true;
+		ctfgame.etarget->client->resp.admin = True;
 		gi.bprintf(PRINT_HIGH, "%s has become an admin.\n", ctfgame.etarget->client->pers.netname);
 		gi.cprintf(ctfgame.etarget, PRINT_HIGH, "Type 'admin' to access the adminstration menu.\n");
 		break;
@@ -2771,7 +2771,7 @@ void CTFVoteYes(edict_t *ent)
 		return;
 	}
 
-	ent->client->resp.voted = true;
+	ent->client->resp.voted = True;
 
 	ctfgame.evotes++;
 	if (ctfgame.evotes == ctfgame.needvotes) {
@@ -2799,7 +2799,7 @@ void CTFVoteNo(edict_t *ent)
 		return;
 	}
 
-	ent->client->resp.voted = true;
+	ent->client->resp.voted = True;
 
 	gi.bprintf(PRINT_HIGH, "%s\n", ctfgame.emsg);
 	gi.bprintf(PRINT_CHAT, "Votes: %d  Needed: %d  Time left: %ds\n", ctfgame.evotes, ctfgame.needvotes,
@@ -2827,7 +2827,7 @@ void CTFReady(edict_t *ent)
 		return;
 	}
 
-	ent->client->resp.ready = true;
+	ent->client->resp.ready = True;
 	gi.bprintf(PRINT_HIGH, "%s is ready.\n", ent->client->pers.netname);
 
 	t1 = t2 = 0;
@@ -2867,7 +2867,7 @@ void CTFNotReady(edict_t *ent)
 		return;
 	}
 
-	ent->client->resp.ready = false;
+	ent->client->resp.ready = False;
 	gi.bprintf(PRINT_HIGH, "%s is no longer ready.\n", ent->client->pers.netname);
 
 	if (ctfgame.match == MATCH_PREGAME) {
@@ -2921,15 +2921,15 @@ void CTFGhost(edict_t *ent)
 qboolean CTFMatchSetup(void)
 {
 	if (ctfgame.match == MATCH_SETUP || ctfgame.match == MATCH_PREGAME)
-		return true;
-	return false;
+		return True;
+	return False;
 }
 
 qboolean CTFMatchOn(void)
 {
 	if (ctfgame.match == MATCH_GAME)
-		return true;
-	return false;
+		return True;
+	return False;
 }
 
 
@@ -3063,7 +3063,7 @@ void CTFChaseCam(edict_t *ent, pmenuhnd_t *p)
 		if (e->inuse && e->solid != SOLID_NOT) {
 			ent->client->chase_target = e;
 			PMenu_Close(ent);
-			ent->client->update_chase = true;
+			ent->client->update_chase = True;
 			return;
 		}
 	}
@@ -3097,8 +3097,8 @@ void CTFShowScores(edict_t *ent, pmenu_t *p)
 {
 	PMenu_Close(ent);
 
-	ent->client->showscores = true;
-	ent->client->showinventory = false;
+	ent->client->showscores = True;
+	ent->client->showinventory = False;
 	DeathmatchScoreboard (ent);
 }
 
@@ -3219,7 +3219,7 @@ void CTFCredits(edict_t *ent, pmenuhnd_t *p)
 qboolean CTFStartClient(edict_t *ent)
 {
 	if (ent->client->resp.ctf_team != CTF_NOTEAM)
-		return false;
+		return False;
 
 	if (!((int)dmflags->value & DF_CTF_FORCEJOIN) || ctfgame.match >= MATCH_SETUP) {
 		// start as 'observer'
@@ -3231,9 +3231,9 @@ qboolean CTFStartClient(edict_t *ent)
 		gi.linkentity (ent);
 
 		CTFOpenJoinMenu(ent);
-		return true;
+		return True;
 	}
-	return false;
+	return False;
 }
 
 void CTFObserver(edict_t *ent)
@@ -3261,8 +3261,8 @@ void CTFObserver(edict_t *ent)
 qboolean CTFInMatch(void)
 {
 	if (ctfgame.match > MATCH_NONE)
-		return true;
-	return false;
+		return True;
+	return False;
 }
 
 qboolean CTFCheckRules(void)
@@ -3292,22 +3292,22 @@ qboolean CTFCheckRules(void)
 					// reset the time
 					ctfgame.matchtime = level.time + matchsetuptime->value * 60;
 				}
-				return false;
+				return False;
 
 			case MATCH_PREGAME :
 				// match started!
 				CTFStartMatch();
-				return false;
+				return False;
 
 			case MATCH_GAME :
 				// match ended!
 				CTFEndMatch();
-				return false;
+				return False;
 			}
 		}
 
 		if (t == ctfgame.lasttime)
-			return false;
+			return False;
 
 		ctfgame.lasttime = t;
 
@@ -3344,16 +3344,16 @@ qboolean CTFCheckRules(void)
 			gi.configstring (CONFIG_CTF_MATCH, text);
 			break;
 		}
-		return false;
+		return False;
 	}
 
 	if (capturelimit->value && 
 		(ctfgame.team1 >= capturelimit->value ||
 		ctfgame.team2 >= capturelimit->value)) {
 		gi.bprintf (PRINT_HIGH, "Capturelimit hit.\n");
-		return true;
+		return True;
 	}
-	return false;
+	return False;
 }
 
 /*--------------------------------------------------------------------------
@@ -3799,7 +3799,7 @@ void CTFAdmin(edict_t *ent)
 
 	if (gi.argc() > 1 && admin_password->string && *admin_password->string &&
 		!ent->client->resp.admin && strcmp(admin_password->string, gi.argv(1)) == 0) {
-		ent->client->resp.admin = true;
+		ent->client->resp.admin = True;
 		gi.bprintf(PRINT_HIGH, "%s has become an admin.\n", ent->client->pers.netname);
 		gi.cprintf(ent, PRINT_HIGH, "Type 'admin' to access the adminstration menu.\n");
 	}

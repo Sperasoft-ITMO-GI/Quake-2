@@ -103,7 +103,7 @@ void SockadrToNetadr (struct sockaddr *s, netadr_t *a)
 qboolean	NET_CompareAdr (netadr_t a, netadr_t b)
 {
 	if (a.type != b.type)
-		return false;
+		return False;
 
 	if (a.type == NA_LOOPBACK)
 		return TRUE;
@@ -111,15 +111,15 @@ qboolean	NET_CompareAdr (netadr_t a, netadr_t b)
 	if (a.type == NA_IP)
 	{
 		if (a.ip[0] == b.ip[0] && a.ip[1] == b.ip[1] && a.ip[2] == b.ip[2] && a.ip[3] == b.ip[3] && a.port == b.port)
-			return true;
-		return false;
+			return True;
+		return False;
 	}
 
 	if (a.type == NA_IPX)
 	{
 		if ((memcmp(a.ipx, b.ipx, 10) == 0) && a.port == b.port)
-			return true;
-		return false;
+			return True;
+		return False;
 	}
 }
 
@@ -133,7 +133,7 @@ Compares without the port
 qboolean	NET_CompareBaseAdr (netadr_t a, netadr_t b)
 {
 	if (a.type != b.type)
-		return false;
+		return False;
 
 	if (a.type == NA_LOOPBACK)
 		return TRUE;
@@ -141,15 +141,15 @@ qboolean	NET_CompareBaseAdr (netadr_t a, netadr_t b)
 	if (a.type == NA_IP)
 	{
 		if (a.ip[0] == b.ip[0] && a.ip[1] == b.ip[1] && a.ip[2] == b.ip[2] && a.ip[3] == b.ip[3])
-			return true;
-		return false;
+			return True;
+		return False;
 	}
 
 	if (a.type == NA_IPX)
 	{
 		if ((memcmp(a.ipx, b.ipx, 10) == 0))
-			return true;
-		return false;
+			return True;
+		return False;
 	}
 }
 
@@ -238,7 +238,7 @@ qboolean	NET_StringToSockaddr (char *s, struct sockaddr *sadr)
 		}
 	}
 	
-	return true;
+	return True;
 }
 
 #undef DO
@@ -262,15 +262,15 @@ qboolean	NET_StringToAdr (char *s, netadr_t *a)
 	{
 		memset (a, 0, sizeof(*a));
 		a->type = NA_LOOPBACK;
-		return true;
+		return True;
 	}
 
 	if (!NET_StringToSockaddr (s, &sadr))
-		return false;
+		return False;
 	
 	SockadrToNetadr (&sadr, a);
 
-	return true;
+	return True;
 }
 
 
@@ -298,7 +298,7 @@ qboolean	NET_GetLoopPacket (netsrc_t sock, netadr_t *net_from, sizebuf_t *net_me
 		loop->get = loop->send - MAX_LOOPBACK;
 
 	if (loop->get >= loop->send)
-		return false;
+		return False;
 
 	i = loop->get & (MAX_LOOPBACK-1);
 	loop->get++;
@@ -307,7 +307,7 @@ qboolean	NET_GetLoopPacket (netsrc_t sock, netadr_t *net_from, sizebuf_t *net_me
 	net_message->cursize = loop->msgs[i].datalen;
 	memset (net_from, 0, sizeof(*net_from));
 	net_from->type = NA_LOOPBACK;
-	return true;
+	return True;
 
 }
 
@@ -338,7 +338,7 @@ qboolean	NET_GetPacket (netsrc_t sock, netadr_t *net_from, sizebuf_t *net_messag
 	int		err;
 
 	if (NET_GetLoopPacket (sock, net_from, net_message))
-		return true;
+		return True;
 
 	for (protocol = 0 ; protocol < 2 ; protocol++)
 	{
@@ -375,10 +375,10 @@ qboolean	NET_GetPacket (netsrc_t sock, netadr_t *net_from, sizebuf_t *net_messag
 		}
 
 		net_message->cursize = ret;
-		return true;
+		return True;
 	}
 
-	return false;
+	return False;
 }
 
 //=============================================================================
@@ -468,7 +468,7 @@ int NET_IPSocket (char *net_interface, int port)
 {
 	int					newsocket;
 	struct sockaddr_in	address;
-	qboolean			_true = true;
+	qboolean			_true = True;
 	int					i = 1;
 	int					err;
 
@@ -775,7 +775,7 @@ NET_Shutdown
 */
 void	NET_Shutdown (void)
 {
-	NET_Config (false);	// close sockets
+	NET_Config (False);	// close sockets
 
 	WSACleanup ();
 }

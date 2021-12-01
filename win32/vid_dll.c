@@ -81,7 +81,7 @@ static void WIN_DisableAltTab( void )
 		RegisterHotKey( 0, 0, MOD_ALT, VK_TAB );
 		RegisterHotKey( 0, 1, MOD_ALT, VK_RETURN );
 	}
-	s_alttab_disabled = true;
+	s_alttab_disabled = True;
 }
 
 static void WIN_EnableAltTab( void )
@@ -100,7 +100,7 @@ static void WIN_EnableAltTab( void )
 			UnregisterHotKey( 0, 1 );
 		}
 
-		s_alttab_disabled = false;
+		s_alttab_disabled = False;
 	}
 }
 
@@ -186,13 +186,13 @@ int MapKey (int key)
 {
 	int result;
 	int modified = ( key >> 16 ) & 255;
-	qboolean is_extended = false;
+	qboolean is_extended = False;
 
 	if ( modified > 127)
 		return 0;
 
 	if ( key & ( 1 << 24 ) )
-		is_extended = true;
+		is_extended = True;
 
 	result = scantokey[modified];
 
@@ -247,16 +247,16 @@ void AppActivate(BOOL fActive, BOOL minimize)
 
 	// we don't want to act like we're active if we're minimized
 	if (fActive && !Minimized)
-		ActiveApp = true;
+		ActiveApp = True;
 	else
-		ActiveApp = false;
+		ActiveApp = False;
 
 	// minimize/restore mouse-capture on demand
 	if (!ActiveApp)
 	{
-		IN_Activate (false);
-		CDAudio_Activate (false);
-		S_Activate (false);
+		IN_Activate (False);
+		CDAudio_Activate (False);
+		S_Activate (False);
 
 		if ( win_noalttab->value )
 		{
@@ -265,9 +265,9 @@ void AppActivate(BOOL fActive, BOOL minimize)
 	}
 	else
 	{
-		IN_Activate (true);
-		CDAudio_Activate (true);
-		S_Activate (true);
+		IN_Activate (True);
+		CDAudio_Activate (True);
+		S_Activate (True);
 		if ( win_noalttab->value )
 		{
 			WIN_DisableAltTab();
@@ -294,13 +294,13 @@ LONG WINAPI MainWndProc (
 	{
 		if ( ( ( int ) wParam ) > 0 )
 		{
-			Key_Event( K_MWHEELUP, true, sys_msg_time );
-			Key_Event( K_MWHEELUP, false, sys_msg_time );
+			Key_Event( K_MWHEELUP, True, sys_msg_time );
+			Key_Event( K_MWHEELUP, False, sys_msg_time );
 		}
 		else
 		{
-			Key_Event( K_MWHEELDOWN, true, sys_msg_time );
-			Key_Event( K_MWHEELDOWN, false, sys_msg_time );
+			Key_Event( K_MWHEELDOWN, True, sys_msg_time );
+			Key_Event( K_MWHEELDOWN, False, sys_msg_time );
 		}
         return DefWindowProc (hWnd, uMsg, wParam, lParam);
 	}
@@ -314,13 +314,13 @@ LONG WINAPI MainWndProc (
 		*/
 		if ( ( short ) HIWORD( wParam ) > 0 )
 		{
-			Key_Event( K_MWHEELUP, true, sys_msg_time );
-			Key_Event( K_MWHEELUP, false, sys_msg_time );
+			Key_Event( K_MWHEELUP, True, sys_msg_time );
+			Key_Event( K_MWHEELUP, False, sys_msg_time );
 		}
 		else
 		{
-			Key_Event( K_MWHEELDOWN, true, sys_msg_time );
-			Key_Event( K_MWHEELDOWN, false, sys_msg_time );
+			Key_Event( K_MWHEELDOWN, True, sys_msg_time );
+			Key_Event( K_MWHEELDOWN, False, sys_msg_time );
 		}
 		break;
 
@@ -378,10 +378,10 @@ LONG WINAPI MainWndProc (
 
 				Cvar_SetValue( "vid_xpos", xPos + r.left);
 				Cvar_SetValue( "vid_ypos", yPos + r.top);
-				vid_xpos->modified = false;
-				vid_ypos->modified = false;
+				vid_xpos->modified = False;
+				vid_ypos->modified = False;
 				if (ActiveApp)
-					IN_Activate (true);
+					IN_Activate (True);
 			}
 		}
         return DefWindowProc (hWnd, uMsg, wParam, lParam);
@@ -428,12 +428,12 @@ LONG WINAPI MainWndProc (
 		}
 		// fall through
 	case WM_KEYDOWN:
-		Key_Event( MapKey( lParam ), true, sys_msg_time);
+		Key_Event( MapKey( lParam ), True, sys_msg_time);
 		break;
 
 	case WM_SYSKEYUP:
 	case WM_KEYUP:
-		Key_Event( MapKey( lParam ), false, sys_msg_time);
+		Key_Event( MapKey( lParam ), False, sys_msg_time);
 		break;
 
 	case MM_MCINOTIFY:
@@ -462,7 +462,7 @@ cause the entire video mode and refresh DLL to be reset on the next frame.
 */
 void VID_Restart_f (void)
 {
-	vid_ref->modified = true;
+	vid_ref->modified = True;
 }
 
 void VID_Front_f( void )
@@ -498,12 +498,12 @@ vidmode_t vid_modes[] =
 qboolean VID_GetModeInfo( int *width, int *height, int mode )
 {
 	if ( mode < 0 || mode >= VID_NUM_MODES )
-		return false;
+		return False;
 
 	*width  = vid_modes[mode].width;
 	*height = vid_modes[mode].height;
 
-	return true;
+	return True;
 }
 
 /*
@@ -537,7 +537,7 @@ void VID_NewWindow ( int width, int height)
 	viddef.width  = width;
 	viddef.height = height;
 
-	cl.force_refdef = true;		// can't use a paused refdef
+	cl.force_refdef = True;		// can't use a paused refdef
 }
 
 void VID_FreeReflib (void)
@@ -546,7 +546,7 @@ void VID_FreeReflib (void)
 		Com_Error( ERR_FATAL, "Reflib FreeLibrary failed" );
 	memset (&re, 0, sizeof(re));
 	reflib_library = NULL;
-	reflib_active  = false;
+	reflib_active  = False;
 }
 
 /*
@@ -571,7 +571,7 @@ qboolean VID_LoadRefresh( char *name )
 	{
 		Com_Printf( "LoadLibrary(\"%s\") failed\n", name );
 
-		return false;
+		return False;
 	}
 
 	ri.Cmd_AddCommand = Cmd_AddCommand;
@@ -606,11 +606,11 @@ qboolean VID_LoadRefresh( char *name )
 	{
 		re.Shutdown();
 		VID_FreeReflib ();
-		return false;
+		return False;
 	}
 
 	Com_Printf( "------------------------------------\n");
-	reflib_active = true;
+	reflib_active = True;
 
 //======
 //PGM
@@ -627,7 +627,7 @@ qboolean VID_LoadRefresh( char *name )
 //PGM
 //======
 
-	return true;
+	return True;
 }
 
 /*
@@ -653,12 +653,12 @@ void VID_CheckChanges (void)
 		{
 			WIN_EnableAltTab();
 		}
-		win_noalttab->modified = false;
+		win_noalttab->modified = False;
 	}
 
 	if ( vid_ref->modified )
 	{
-		cl.force_refdef = true;		// can't use a paused refdef
+		cl.force_refdef = True;		// can't use a paused refdef
 		S_StopAllSounds();
 	}
 	while (vid_ref->modified)
@@ -666,10 +666,10 @@ void VID_CheckChanges (void)
 		/*
 		** refresh has changed
 		*/
-		vid_ref->modified = false;
-		vid_fullscreen->modified = true;
-		cl.refresh_prepped = false;
-		cls.disable_screen = true;
+		vid_ref->modified = False;
+		vid_fullscreen->modified = True;
+		cl.refresh_prepped = False;
+		cls.disable_screen = True;
 
 		// TODO: what is this happening?
 
@@ -688,7 +688,7 @@ void VID_CheckChanges (void)
 				Con_ToggleConsole_f();
 			}
 		}
-		cls.disable_screen = false;
+		cls.disable_screen = False;
 	}
 
 	/*
@@ -699,8 +699,8 @@ void VID_CheckChanges (void)
 		if (!vid_fullscreen->value)
 			VID_UpdateWindowPosAndSize( vid_xpos->value, vid_ypos->value );
 
-		vid_xpos->modified = false;
-		vid_ypos->modified = false;
+		vid_xpos->modified = False;
+		vid_ypos->modified = False;
 	}
 }
 

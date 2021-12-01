@@ -44,13 +44,13 @@ void *Hunk_Begin (int maxsize)
 	cursize = 0;
 	hunkmaxsize = maxsize;
 #ifdef VIRTUAL_ALLOC
-	membase = VirtualAlloc (NULL, maxsize, MEM_RESERVE, PAGE_NOACCESS);
+	membase = (byte*)VirtualAlloc (NULL, maxsize, MEM_RESERVE, PAGE_NOACCESS);
 #else
 	membase = malloc (maxsize);
 	memset (membase, 0, maxsize);
 #endif
 	if (!membase)
-		Sys_Error ("VirtualAlloc reserve failed");
+		Sys_Error ((char*)"VirtualAlloc reserve failed");
 	return (void *)membase;
 }
 
@@ -68,12 +68,12 @@ void *Hunk_Alloc (int size)
 	if (!buf)
 	{
 		FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM, NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR) &buf, 0, NULL);
-		Sys_Error ("VirtualAlloc commit failed.\n%s", buf);
+		Sys_Error ((char*)"VirtualAlloc commit failed.\n%s", buf);
 	}
 #endif
 	cursize += size;
 	if (cursize > hunkmaxsize)
-		Sys_Error ("Hunk_Alloc overflow");
+		Sys_Error ((char*)"Hunk_Alloc overflow");
 
 	return (void *)(membase+cursize-size);
 }
@@ -120,12 +120,12 @@ int	curtime;
 int Sys_Milliseconds (void)
 {
 	static int		base;
-	static qboolean	initialized = false;
+	static qboolean	initialized = False;
 
 	if (!initialized)
 	{	// let base retain 16 bits of effectively random data
 		base = timeGetTime() & 0xffff0000;
-		initialized = true;
+		initialized = True;
 	}
 	curtime = timeGetTime() - base;
 
@@ -146,28 +146,28 @@ int		findhandle;
 static qboolean CompareAttributes( unsigned found, unsigned musthave, unsigned canthave )
 {
 	if ( ( found & _A_RDONLY ) && ( canthave & SFF_RDONLY ) )
-		return false;
+		return False;
 	if ( ( found & _A_HIDDEN ) && ( canthave & SFF_HIDDEN ) )
-		return false;
+		return False;
 	if ( ( found & _A_SYSTEM ) && ( canthave & SFF_SYSTEM ) )
-		return false;
+		return False;
 	if ( ( found & _A_SUBDIR ) && ( canthave & SFF_SUBDIR ) )
-		return false;
+		return False;
 	if ( ( found & _A_ARCH ) && ( canthave & SFF_ARCH ) )
-		return false;
+		return False;
 
 	if ( ( musthave & SFF_RDONLY ) && !( found & _A_RDONLY ) )
-		return false;
+		return False;
 	if ( ( musthave & SFF_HIDDEN ) && !( found & _A_HIDDEN ) )
-		return false;
+		return False;
 	if ( ( musthave & SFF_SYSTEM ) && !( found & _A_SYSTEM ) )
-		return false;
+		return False;
 	if ( ( musthave & SFF_SUBDIR ) && !( found & _A_SUBDIR ) )
-		return false;
+		return False;
 	if ( ( musthave & SFF_ARCH ) && !( found & _A_ARCH ) )
-		return false;
+		return False;
 
-	return true;
+	return True;
 }
 
 char *Sys_FindFirst (char *path, unsigned musthave, unsigned canthave )
@@ -175,7 +175,7 @@ char *Sys_FindFirst (char *path, unsigned musthave, unsigned canthave )
 	struct _finddata_t findinfo;
 
 	if (findhandle)
-		Sys_Error ("Sys_BeginFind without close");
+		Sys_Error ((char*)"Sys_BeginFind without close");
 	findhandle = 0;
 
 	COM_FilePath (path, findbase);
@@ -184,7 +184,7 @@ char *Sys_FindFirst (char *path, unsigned musthave, unsigned canthave )
 		return NULL;
 	if ( !CompareAttributes( findinfo.attrib, musthave, canthave ) )
 		return NULL;
-	Com_sprintf (findpath, sizeof(findpath), "%s/%s", findbase, findinfo.name);
+	Com_sprintf (findpath, sizeof(findpath), (char*)"%s/%s", findbase, findinfo.name);
 	return findpath;
 }
 
@@ -199,7 +199,7 @@ char *Sys_FindNext ( unsigned musthave, unsigned canthave )
 	if ( !CompareAttributes( findinfo.attrib, musthave, canthave ) )
 		return NULL;
 
-	Com_sprintf (findpath, sizeof(findpath), "%s/%s", findbase, findinfo.name);
+	Com_sprintf (findpath, sizeof(findpath), (char*)"%s/%s", findbase, findinfo.name);
 	return findpath;
 }
 

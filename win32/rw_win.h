@@ -46,7 +46,7 @@ typedef struct
 	LPDIRECTDRAWSURFACE lpddsOffScreenBuffer;	// system memory backbuffer
 	LPDIRECTDRAWPALETTE	lpddpPalette;		// DirectDraw palette
 
-	qboolean		palettized;			// true if desktop is paletted
+	qboolean		palettized;			// True if desktop is paletted
 	qboolean		modex;
 
 	qboolean		initializing;

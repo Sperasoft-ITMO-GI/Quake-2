@@ -977,7 +977,7 @@ struct gclient_s
 
 //ZOID
 	void		*ctf_grapple;		// entity of grapple
-	int			ctf_grapplestate;		// true if pulling
+	int			ctf_grapplestate;		// True if pulling
 	float		ctf_grapplereleasetime;	// time of grapple release
 	float		ctf_regentime;		// regen tech
 	float		ctf_techsndtime;

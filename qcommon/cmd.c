@@ -53,7 +53,7 @@ bind g "impulse 5 ; +attack ; wait ; -attack ; impulse 2"
 */
 void Cmd_Wait_f (void)
 {
-	cmd_wait = true;
+	cmd_wait = True;
 }
 
 
@@ -240,7 +240,7 @@ void Cbuf_Execute (void)
 		{
 			// skip out while text still remains in buffer, leaving it
 			// for next frame
-			cmd_wait = false;
+			cmd_wait = False;
 			break;
 		}
 	}
@@ -289,7 +289,7 @@ Adds command line parameters as script statements
 Commands lead with a + and continue until another + or -
 quake +vid_ref gl +map amlev1
 
-Returns true if any late commands were added, which
+Returns True if any late commands were added, which
 will keep the demoloop from immediately starting
 =================
 */
@@ -309,7 +309,7 @@ qboolean Cbuf_AddLateCommands (void)
 		s += strlen (COM_Argv(i)) + 1;
 	}
 	if (!s)
-		return false;
+		return False;
 		
 	text = Z_Malloc (s+1);
 	text[0] = 0;
@@ -548,7 +548,7 @@ char *Cmd_MacroExpandString (char *text)
 	char	temporary[MAX_STRING_CHARS];
 	char	*token, *start;
 
-	inquote = false;
+	inquote = False;
 	scan = text;
 
 	len = strlen (scan);
@@ -756,10 +756,10 @@ qboolean	Cmd_Exists (char *cmd_name)
 	for (cmd=cmd_functions ; cmd ; cmd=cmd->next)
 	{
 		if (!strcmp (cmd_name,cmd->name))
-			return true;
+			return True;
 	}
 
-	return false;
+	return False;
 }
 
 
@@ -813,7 +813,7 @@ void	Cmd_ExecuteString (char *text)
 	cmd_function_t	*cmd;
 	cmdalias_t		*a;
 
-	Cmd_TokenizeString (text, true);
+	Cmd_TokenizeString (text, True);
 			
 	// execute the command line
 	if (!Cmd_Argc())

@@ -559,7 +559,7 @@ Lp1:
 ;				{
  jz Ltestright	
 
-;					r_leftclipped = true;
+;					r_leftclipped = True;
 ;					r_leftexit = clipvert;
  mov ds:dword ptr[_r_leftclipped],1	
  mov eax,ds:dword ptr[mv_position+0+esp]	
@@ -579,7 +579,7 @@ Ltestright:
  test ah,ah	
  jz Lcontinue	
 
-;					r_rightclipped = true;
+;					r_rightclipped = True;
 ;					r_rightexit = clipvert;
  mov ds:dword ptr[_r_rightclipped],1	
  mov eax,ds:dword ptr[mv_position+0+esp]	
@@ -601,7 +601,7 @@ Ltestright:
 Lp3:	
 
 ;			// only point 0 is clipped
-;				r_lastvertvalid = false;
+;				r_lastvertvalid = False;
 
  mov ds:dword ptr[_r_lastvertvalid],0	
 
@@ -655,7 +655,7 @@ Lp3:
 ;				{
  jz Ltestright2	
 
-;					r_leftclipped = true;
+;					r_leftclipped = True;
 ;					r_leftenter = clipvert;
  mov ds:dword ptr[_r_leftclipped],1	
  mov eax,ds:dword ptr[mv_position+0+esp]	
@@ -675,7 +675,7 @@ Ltestright2:
  test ah,ah	
  jz Lcontinue	
 
-;					r_rightclipped = true;
+;					r_rightclipped = True;
 ;					r_rightenter = clipvert;
  mov ds:dword ptr[_r_rightclipped],1	
  mov eax,ds:dword ptr[mv_position+0+esp]	

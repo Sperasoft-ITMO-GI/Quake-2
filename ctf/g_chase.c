@@ -98,12 +98,12 @@ void UpdateChaseCam(edict_t *ent)
 		!(level.framenum & 31)) || ent->client->update_chase) {
 		char s[1024];
 
-		ent->client->update_chase = false;
+		ent->client->update_chase = False;
 		sprintf(s, "xv 0 yb -68 string2 \"Chasing %s\"",
 			targ->client->pers.netname);
 		gi.WriteByte (svc_layout);
 		gi.WriteString (s);
-		gi.unicast(ent, false);
+		gi.unicast(ent, False);
 	}
 
 }
@@ -129,7 +129,7 @@ void ChaseNext(edict_t *ent)
 	} while (e != ent->client->chase_target);
 
 	ent->client->chase_target = e;
-	ent->client->update_chase = true;
+	ent->client->update_chase = True;
 }
 
 void ChasePrev(edict_t *ent)
@@ -153,5 +153,5 @@ void ChasePrev(edict_t *ent)
 	} while (e != ent->client->chase_target);
 
 	ent->client->chase_target = e;
-	ent->client->update_chase = true;
+	ent->client->update_chase = True;
 }

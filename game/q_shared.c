@@ -17,6 +17,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
+
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "q_shared.h"
 
 #define DEG2RAD( a ) ( a * M_PI ) / 180.0F
@@ -843,7 +846,7 @@ char *COM_FileExtension (char *in)
 	while (*in && *in != '.')
 		in++;
 	if (!*in)
-		return "";
+		return (char*)"";
 	in++;
 	for (i=0 ; i<7 && *in ; i++,in++)
 		exten[i] = *in;
@@ -873,7 +876,7 @@ void COM_FileBase (char *in, char *out)
 	else
 	{
 		s--;
-		strncpy (out,s2+1, s-s2);
+		strncpy(out,s2+1, s-s2);
 		out[s-s2] = 0;
 	}
 }
@@ -1015,7 +1018,7 @@ void Swap_Init (void)
 // set the byte swapping variables in a portable manner	
 	if ( *(short *)swaptest == 1)
 	{
-		bigendien = false;
+		bigendien = False;
 		_BigShort = ShortSwap;
 		_LittleShort = ShortNoSwap;
 		_BigLong = LongSwap;
@@ -1025,7 +1028,7 @@ void Swap_Init (void)
 	}
 	else
 	{
-		bigendien = true;
+		bigendien = True;
 		_BigShort = ShortNoSwap;
 		_LittleShort = ShortSwap;
 		_BigLong = LongNoSwap;
@@ -1082,7 +1085,7 @@ char *COM_Parse (char **data_p)
 	if (!data)
 	{
 		*data_p = NULL;
-		return "";
+		return (char*)"";
 	}
 		
 // skip whitespace
@@ -1092,7 +1095,7 @@ skipwhite:
 		if (c == 0)
 		{
 			*data_p = NULL;
-			return "";
+			return (char*)"";
 		}
 		data++;
 	}
@@ -1230,7 +1233,7 @@ void Com_sprintf (char *dest, int size, char *fmt, ...)
 	len = vsprintf (bigbuffer,fmt,argptr);
 	va_end (argptr);
 	if (len >= size)
-		Com_Printf ("Com_sprintf: overflow of %i in %i\n", len, size);
+		Com_Printf ((char*)"Com_sprintf: overflow of %i in %i\n", len, size);
 	strncpy (dest, bigbuffer, size-1);
 }
 
@@ -1267,7 +1270,7 @@ char *Info_ValueForKey (char *s, char *key)
 		while (*s != '\\')
 		{
 			if (!*s)
-				return "";
+				return (char*)"";
 			*o++ = *s++;
 		}
 		*o = 0;
@@ -1278,7 +1281,7 @@ char *Info_ValueForKey (char *s, char *key)
 		while (*s != '\\' && *s)
 		{
 			if (!*s)
-				return "";
+				return (char*)"";
 			*o++ = *s++;
 		}
 		*o = 0;
@@ -1287,7 +1290,7 @@ char *Info_ValueForKey (char *s, char *key)
 			return value[valueindex];
 
 		if (!*s)
-			return "";
+			return (char*)"";
 		s++;
 	}
 }
@@ -1353,10 +1356,10 @@ can mess up the server's parsing
 qboolean Info_Validate (char *s)
 {
 	if (strstr (s, "\""))
-		return false;
+		return False;
 	if (strstr (s, ";"))
-		return false;
-	return true;
+		return False;
+	return True;
 }
 
 void Info_SetValueForKey (char *s, char *key, char *value)
@@ -1367,36 +1370,36 @@ void Info_SetValueForKey (char *s, char *key, char *value)
 
 	if (strstr (key, "\\") || strstr (value, "\\") )
 	{
-		Com_Printf ("Can't use keys or values with a \\\n");
+		Com_Printf ((char*)"Can't use keys or values with a \\\n");
 		return;
 	}
 
 	if (strstr (key, ";") )
 	{
-		Com_Printf ("Can't use keys or values with a semicolon\n");
+		Com_Printf ((char*)"Can't use keys or values with a semicolon\n");
 		return;
 	}
 
 	if (strstr (key, "\"") || strstr (value, "\"") )
 	{
-		Com_Printf ("Can't use keys or values with a \"\n");
+		Com_Printf ((char*)"Can't use keys or values with a \"\n");
 		return;
 	}
 
 	if (strlen(key) > MAX_INFO_KEY-1 || strlen(value) > MAX_INFO_KEY-1)
 	{
-		Com_Printf ("Keys and values must be < 64 characters.\n");
+		Com_Printf ((char*)"Keys and values must be < 64 characters.\n");
 		return;
 	}
 	Info_RemoveKey (s, key);
 	if (!value || !strlen(value))
 		return;
 
-	Com_sprintf (newi, sizeof(newi), "\\%s\\%s", key, value);
+	Com_sprintf (newi, sizeof(newi), (char*)"\\%s\\%s", key, value);
 
 	if (strlen(newi) + strlen(s) > maxsize)
 	{
-		Com_Printf ("Info string length exceeded\n");
+		Com_Printf ((char*)"Info string length exceeded\n");
 		return;
 	}
 

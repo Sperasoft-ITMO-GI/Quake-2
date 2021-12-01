@@ -559,7 +559,7 @@ qboolean Boss2_CheckAttack (edict_t *self)
 
 		// do we have a clear shot?
 		if (tr.ent != self->enemy)
-			return false;
+			return False;
 	}
 	
 	enemy_infront = infront(self, self->enemy);
@@ -577,18 +577,18 @@ qboolean Boss2_CheckAttack (edict_t *self)
 			self->monsterinfo.attack_state = AS_MELEE;
 		else
 			self->monsterinfo.attack_state = AS_MISSILE;
-		return true;
+		return True;
 	}
 	
 // missile attack
 	if (!self->monsterinfo.attack)
-		return false;
+		return False;
 		
 	if (level.time < self->monsterinfo.attack_finished)
-		return false;
+		return False;
 		
 	if (enemy_range == RANGE_FAR)
-		return false;
+		return False;
 
 	if (self->monsterinfo.aiflags & AI_STAND_GROUND)
 	{
@@ -608,14 +608,14 @@ qboolean Boss2_CheckAttack (edict_t *self)
 	}
 	else
 	{
-		return false;
+		return False;
 	}
 
 	if (random () < chance)
 	{
 		self->monsterinfo.attack_state = AS_MISSILE;
 		self->monsterinfo.attack_finished = level.time + 2*random();
-		return true;
+		return True;
 	}
 
 	if (self->flags & FL_FLY)
@@ -626,7 +626,7 @@ qboolean Boss2_CheckAttack (edict_t *self)
 			self->monsterinfo.attack_state = AS_STRAIGHT;
 	}
 
-	return false;
+	return False;
 }
 
 

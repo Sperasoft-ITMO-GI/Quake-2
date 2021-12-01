@@ -129,13 +129,13 @@ void CL_ClipMoveToEntities ( vec3_t start, vec3_t mins, vec3_t maxs, vec3_t end,
 		 	if (tr->startsolid)
 			{
 				*tr = trace;
-				tr->startsolid = true;
+				tr->startsolid = True;
 			}
 			else
 				*tr = trace;
 		}
 		else if (trace.startsolid)
-			tr->startsolid = true;
+			tr->startsolid = True;
 	}
 }
 

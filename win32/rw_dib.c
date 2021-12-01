@@ -99,7 +99,7 @@ qboolean DIB_Init( unsigned char **ppbuffer, int *ppitch )
 	if ( !sww_state.hDC )
 	{
 		if ( ( sww_state.hDC = GetDC( sww_state.hWnd ) ) == NULL )
-			return false;
+			return False;
 	}
 
 	/*
@@ -107,18 +107,18 @@ qboolean DIB_Init( unsigned char **ppbuffer, int *ppitch )
 	*/
  	if ( GetDeviceCaps( sww_state.hDC, RASTERCAPS ) & RC_PALETTE )
 	{
-		sww_state.palettized = true;
+		sww_state.palettized = True;
 
 		// save system colors
 		if ( !s_systemcolors_saved )
 		{
 			DIB_SaveSystemColors();
-			s_systemcolors_saved = true;
+			s_systemcolors_saved = True;
 		}
 	}
 	else
 	{
-		sww_state.palettized = false;
+		sww_state.palettized = False;
 	}
 
 	/*
@@ -191,11 +191,11 @@ qboolean DIB_Init( unsigned char **ppbuffer, int *ppitch )
 		goto fail;
 	}
 
-	return true;
+	return True;
 
 fail:
 	DIB_Shutdown();
-	return false;
+	return False;
 	
 }
 
