@@ -240,7 +240,7 @@ void VID_MenuInit( void )
 	{
 		// Aspect Ratio: 4x3
 		// TODO: 16:9
-		"[320 240  ]",
+		/*"[320 240  ]",
 		"[400 300  ]",
 		"[512 384  ]",
 		"[640 480  ]",
@@ -249,7 +249,17 @@ void VID_MenuInit( void )
 		"[1024 768 ]",
 		"[1152 864 ]",
 		"[1280 960 ]",
-		"[1600 1200]",
+		"[1600 1200]",*/
+		"[426 240   ]",
+		"[640 360   ]",
+		"[960 540   ]",
+		"[1024 576  ]",
+		"[1280 720  ]",
+		"[1600 900  ]",
+		"[1920 1080 ]",
+		"[2560 1440 ]",
+		"[3200 1800 ]",
+		"[3840 2160 ]",
 		0
 	};
 	static const char *refs[] =
@@ -279,8 +289,7 @@ void VID_MenuInit( void )
 	if ( !sw_mode )
 		sw_mode = Cvar_Get( "sw_mode", "0", 0 );
 	if (!dx12_mode)
-		// NOTE: Magic "3"!!!!
-		dx12_mode = Cvar_Get("dx12_mode", "3", 0);
+		dx12_mode = Cvar_Get("dx12_mode", "4", 0);
 	if ( !gl_ext_palettedtexture )
 		gl_ext_palettedtexture = Cvar_Get( "gl_ext_palettedtexture", "1", CVAR_ARCHIVE );
 	if ( !gl_finish )
@@ -432,7 +441,7 @@ void VID_MenuInit( void )
 	// NOTE: DirectX12 menu items
 	Menu_AddItem( &s_directx12_menu, ( void* ) &s_ref_list[DIRECTX12_MENU] );
 	Menu_AddItem( &s_directx12_menu, ( void* ) &s_mode_list[DIRECTX12_MENU] );
-	Menu_AddItem( &s_directx12_menu, ( void* ) &s_screensize_slider[DIRECTX12_MENU] );
+	//Menu_AddItem( &s_directx12_menu, ( void* ) &s_screensize_slider[DIRECTX12_MENU] );
 	//Menu_AddItem( &s_directx12_menu, ( void* ) &s_brightness_slider[DIRECTX12_MENU] );
 	//Menu_AddItem( &s_directx12_menu, ( void* ) &s_fs_box[DIRECTX12_MENU] );
 
