@@ -14,6 +14,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ref_soft", "ref_soft\ref_soft.vcxproj", "{CC13AF0C-13C7-46BE-8E6F-CAAF494CB2FE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ref_dx12", "ref_dx12\ref_dx12.vcxproj", "{F6F875D5-D6D6-4900-AC2B-B0737DE1D8B4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E3E3C7DD-46E2-48EE-82AD-9F5F088D57E9} = {E3E3C7DD-46E2-48EE-82AD-9F5F088D57E9}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "init_dx12", "ref_dx12\init_dx12\init_dx12.vcxproj", "{E3E3C7DD-46E2-48EE-82AD-9F5F088D57E9}"
 EndProject
