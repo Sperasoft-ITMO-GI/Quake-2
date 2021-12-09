@@ -633,6 +633,8 @@ qboolean VID_LoadRefresh( char *name )
 			vidref_val = VIDREF_SOFT;
 		else if (!strcmp(vid_ref->string, "dx12"))
 			vidref_val = VIDREF_DX12;
+		else if (!strcmp(vid_ref->string, "dx11"))
+			vidref_val = VIDREF_DX11;
 	}
 //PGM
 //======

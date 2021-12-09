@@ -27,6 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define REF_VERITE	4
 // NOTE: temporable collision
 #define REF_DX12	4
+#define REF_DX11	5
 
 extern cvar_t *vid_ref;
 extern cvar_t *vid_fullscreen;
@@ -41,6 +42,8 @@ static cvar_t *gl_finish;
 
 static cvar_t* dx12_mode;
 // TODO: other functionality DX12 extensions
+
+static cvar_t* dx11_mode;
 
 static cvar_t *sw_mode;
 static cvar_t *sw_stipplealpha;
@@ -57,13 +60,15 @@ MENU INTERACTION
 #define SOFTWARE_MENU	0
 #define OPENGL_MENU		1
 #define DIRECTX12_MENU	2
+#define DIRECTX11_MENU	3
 
 // NOTE: Number of render modes
-#define RENDER_MODES 3
+#define RENDER_MODES 4
 
 static menuframework_s  s_software_menu;
 static menuframework_s	s_opengl_menu;
 static menuframework_s	s_directx12_menu;
+static menuframework_s	s_directx11_menu;
 static menuframework_s *s_current_menu;
 static int				s_current_menu_index;
 
@@ -98,6 +103,11 @@ static void DriverCallback( void *unused )
 	{
 		s_current_menu = &s_directx12_menu;
 		s_current_menu_index = DIRECTX12_MENU;
+	}
+	else if (s_ref_list[s_current_menu_index].curvalue == 5)
+	{
+		s_current_menu = &s_directx11_menu;
+		s_current_menu_index = DIRECTX11_MENU;
 	}
 
 }
@@ -163,6 +173,7 @@ static void ApplyChanges( void *unused )
 	Cvar_SetValue( "sw_mode", s_mode_list[SOFTWARE_MENU].curvalue );
 	Cvar_SetValue( "gl_mode", s_mode_list[OPENGL_MENU].curvalue );
 	Cvar_SetValue( "dx12_mode", s_mode_list[DIRECTX12_MENU].curvalue );
+	Cvar_SetValue( "dx11_mode", s_mode_list[DIRECTX11_MENU].curvalue );
 
 	switch ( s_ref_list[s_current_menu_index].curvalue )
 	{
@@ -187,6 +198,10 @@ static void ApplyChanges( void *unused )
 		break;*/
 	case REF_DX12:
 		Cvar_Set("vid_ref", "dx12");
+		//Cvar_Set("dx_driver", "directx12");
+		break;
+	case REF_DX11:
+		Cvar_Set("vid_ref", "dx11");
 		//Cvar_Set("dx_driver", "directx12");
 		break;
 	}
@@ -269,6 +284,7 @@ void VID_MenuInit( void )
 		"[3Dfx OpenGL   ]",
 		"[PowerVR OpenGL]",
 		"[DirectX 12    ]",
+		"[DirectX 11    ]",
 //		"[Rendition OpenGL]",
 		0
 	};
@@ -290,6 +306,8 @@ void VID_MenuInit( void )
 		sw_mode = Cvar_Get( "sw_mode", "0", 0 );
 	if (!dx12_mode)
 		dx12_mode = Cvar_Get("dx12_mode", "4", 0);
+	if (!dx11_mode)
+		dx11_mode = Cvar_Get("dx11_mode", "4", 0);
 	if ( !gl_ext_palettedtexture )
 		gl_ext_palettedtexture = Cvar_Get( "gl_ext_palettedtexture", "1", CVAR_ARCHIVE );
 	if ( !gl_finish )
@@ -301,6 +319,7 @@ void VID_MenuInit( void )
 	s_mode_list[SOFTWARE_MENU].curvalue = sw_mode->value;
 	s_mode_list[OPENGL_MENU].curvalue = gl_mode->value;
 	s_mode_list[DIRECTX12_MENU].curvalue = dx12_mode->value;
+	s_mode_list[DIRECTX11_MENU].curvalue = dx11_mode->value;
 
 	if ( !scr_viewsize )
 		scr_viewsize = Cvar_Get ("viewsize", "100", CVAR_ARCHIVE);
@@ -308,6 +327,7 @@ void VID_MenuInit( void )
 	s_screensize_slider[SOFTWARE_MENU].curvalue = scr_viewsize->value/10;
 	s_screensize_slider[OPENGL_MENU].curvalue = scr_viewsize->value/10;
 	s_screensize_slider[DIRECTX12_MENU].curvalue = scr_viewsize->value/10;
+	s_screensize_slider[DIRECTX11_MENU].curvalue = scr_viewsize->value / 10;
 
 	if ( strcmp( vid_ref->string, "soft" ) == 0 )
 	{
@@ -332,6 +352,11 @@ void VID_MenuInit( void )
 		s_current_menu_index = DIRECTX12_MENU;
 		s_ref_list[s_current_menu_index].curvalue = REF_DX12;
 	}
+	else if (strcmp(vid_ref->string, "dx11") == 0)
+	{
+		s_current_menu_index = DIRECTX11_MENU;
+		s_ref_list[s_current_menu_index].curvalue = REF_DX11;
+	}
 
 	s_software_menu.x = viddef.width * 0.50;
 	s_software_menu.nitems = 0;
@@ -339,6 +364,8 @@ void VID_MenuInit( void )
 	s_opengl_menu.nitems = 0;
 	s_directx12_menu.x = viddef.width * 0.50;
 	s_directx12_menu.nitems = 0;
+	s_directx11_menu.x = viddef.width * 0.50;
+	s_directx11_menu.nitems = 0;
 
 	for ( i = 0; i < RENDER_MODES; i++ )
 	{
@@ -445,19 +472,31 @@ void VID_MenuInit( void )
 	//Menu_AddItem( &s_directx12_menu, ( void* ) &s_brightness_slider[DIRECTX12_MENU] );
 	//Menu_AddItem( &s_directx12_menu, ( void* ) &s_fs_box[DIRECTX12_MENU] );
 
+	// NOTE: DirectX11 menu items
+	Menu_AddItem(&s_directx11_menu, (void*)&s_ref_list[DIRECTX11_MENU]);
+	Menu_AddItem(&s_directx11_menu, (void*)&s_mode_list[DIRECTX11_MENU]);
+	Menu_AddItem( &s_directx11_menu, ( void* ) &s_screensize_slider[DIRECTX11_MENU] );
+	//Menu_AddItem( &s_directx11_menu, ( void* ) &s_brightness_slider[DIRECTX11_MENU] );
+	//Menu_AddItem( &s_directx11_menu, ( void* ) &s_fs_box[DIRECTX11_MENU] );
+
 	Menu_AddItem( &s_software_menu, ( void * ) &s_defaults_action[SOFTWARE_MENU] );
 	Menu_AddItem( &s_software_menu, ( void * ) &s_cancel_action[SOFTWARE_MENU] );
 	Menu_AddItem( &s_opengl_menu, ( void * ) &s_defaults_action[OPENGL_MENU] );
 	Menu_AddItem( &s_opengl_menu, ( void * ) &s_cancel_action[OPENGL_MENU] );
 	Menu_AddItem( &s_directx12_menu, ( void* ) &s_defaults_action[DIRECTX12_MENU] );
 	Menu_AddItem( &s_directx12_menu, ( void* ) &s_cancel_action[DIRECTX12_MENU] );
+	Menu_AddItem( &s_directx11_menu, ( void* ) &s_defaults_action[DIRECTX11_MENU] );
+	Menu_AddItem( &s_directx11_menu, ( void* ) &s_cancel_action[DIRECTX11_MENU] );
 
 	Menu_Center( &s_software_menu );
 	Menu_Center( &s_opengl_menu );
 	Menu_Center( &s_directx12_menu );
+	Menu_Center( &s_directx11_menu );
+
 	s_opengl_menu.x -= 8;
 	s_software_menu.x -= 8;
 	s_directx12_menu.x -= 8;
+	s_directx11_menu.x -= 8;
 }
 
 /*
@@ -475,6 +514,8 @@ void VID_MenuDraw (void)
 		s_current_menu = &s_opengl_menu;
 	else if (s_current_menu_index == DIRECTX12_MENU)
 		s_current_menu = &s_directx12_menu;
+	else if (s_current_menu_index == DIRECTX11_MENU)
+		s_current_menu = &s_directx11_menu;
 
 	/*
 	** draw the banner
