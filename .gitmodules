@@ -1,3 +1,6 @@
 [submodule "ref_dx12"]
 	path = ref_dx12
 	url = https://github.com/Sperasoft-ITMO-GI/ref_dx12.git
+[submodule "ref_dx11"]
+	path = ref_dx11
+	url = https://github.com/Sperasoft-ITMO-GI/ref_dx11.git
