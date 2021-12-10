@@ -26,6 +26,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../client/ref.h"
 
+// NOTE: all .asm files excluded from build
+//		 because we have an error in one
+//		 redefine is used so as not to use asm
+#define id386 0
+
 #define REF_VERSION     "SOFT 0.01"
 
 // up / down
