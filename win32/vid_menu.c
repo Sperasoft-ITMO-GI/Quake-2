@@ -473,11 +473,11 @@ void VID_MenuInit( void )
 	//Menu_AddItem( &s_directx12_menu, ( void* ) &s_fs_box[DIRECTX12_MENU] );
 
 	// NOTE: DirectX11 menu items
-	Menu_AddItem(&s_directx11_menu, (void*)&s_ref_list[DIRECTX11_MENU]);
-	Menu_AddItem(&s_directx11_menu, (void*)&s_mode_list[DIRECTX11_MENU]);
+	Menu_AddItem( &s_directx11_menu, ( void* ) &s_ref_list[DIRECTX11_MENU] );
+	Menu_AddItem( &s_directx11_menu, ( void* ) &s_mode_list[DIRECTX11_MENU] );
 	Menu_AddItem( &s_directx11_menu, ( void* ) &s_screensize_slider[DIRECTX11_MENU] );
-	//Menu_AddItem( &s_directx11_menu, ( void* ) &s_brightness_slider[DIRECTX11_MENU] );
-	//Menu_AddItem( &s_directx11_menu, ( void* ) &s_fs_box[DIRECTX11_MENU] );
+	Menu_AddItem( &s_directx11_menu, ( void* ) &s_brightness_slider[DIRECTX11_MENU] );
+	Menu_AddItem( &s_directx11_menu, ( void* ) &s_fs_box[DIRECTX11_MENU] );
 
 	Menu_AddItem( &s_software_menu, ( void * ) &s_defaults_action[SOFTWARE_MENU] );
 	Menu_AddItem( &s_software_menu, ( void * ) &s_cancel_action[SOFTWARE_MENU] );
