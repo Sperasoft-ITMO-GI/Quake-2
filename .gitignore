@@ -393,3 +393,13 @@ FodyWeavers.xsd
 
 # Precompile shaders
 *.cso
+
+# Quake II stuff
+/baseq2/save
+
+# Test Picture Stuff
+/pics/pic/*.png
+/pics/sky/*.png
+/pics/wall/*.png
+/pics/sprite/*.png
+/pics/skin/*.png
