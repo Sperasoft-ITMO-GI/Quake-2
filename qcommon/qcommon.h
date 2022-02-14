@@ -1,3 +1,4 @@
+#pragma once
 /*
 Copyright (C) 1997-2001 Id Software, Inc.
 
@@ -130,7 +131,7 @@ void	MSG_ReadData (sizebuf_t *sb, void *buffer, int size);
 
 //============================================================================
 
-extern	qboolean		bigendien;
+extern	qboolean bigendien;
 
 extern	short	BigShort (short l);
 extern	short	LittleShort (short l);

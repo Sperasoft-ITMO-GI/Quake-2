@@ -346,6 +346,7 @@ void VID_MenuInit( void )
 	s_screensize_slider[OPENGL_MENU].curvalue = scr_viewsize->value/10;
 	s_screensize_slider[DIRECTX12_MENU].curvalue = scr_viewsize->value/10;
 	s_screensize_slider[DIRECTX11_MENU].curvalue = scr_viewsize->value / 10;
+	s_screensize_slider[DIRECTX11RG_MENU].curvalue = scr_viewsize->value / 10;
 
 	if ( strcmp( vid_ref->string, "soft" ) == 0 )
 	{
@@ -554,6 +555,8 @@ void VID_MenuDraw (void)
 		s_current_menu = &s_directx12_menu;
 	else if (s_current_menu_index == DIRECTX11_MENU)
 		s_current_menu = &s_directx11_menu;
+	else if (s_current_menu_index == DIRECTX11RG_MENU)
+		s_current_menu = &s_directx11rg_menu;
 
 	/*
 	** draw the banner
