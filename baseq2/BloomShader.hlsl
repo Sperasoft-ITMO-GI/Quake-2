@@ -29,7 +29,6 @@ Texture2D<float4>  luminance : register(t0);
 
 SamplerState basicSampler : register(s0);
 
-#define gauss_constant 0.3989422804014327
 
 float gauss_weight(int sampleDist, float sigma)
 {
@@ -37,7 +36,7 @@ float gauss_weight(int sampleDist, float sigma)
 	return (g * exp(-(sampleDist * sampleDist) / (2 * sigma * sigma)));
 }
 
-float4 gauss(in PSIn input, in float2 tex_scale, in float sigma)
+float4 gauss(in PSIn input, in float2 texDirr, in float sigma)
 {
 	float4 color = 0;
 
@@ -51,12 +50,12 @@ float4 gauss(in PSIn input, in float2 tex_scale, in float sigma)
 		// compute tap tc
 		float2 tc1 = input.uv;
 		float2 tc2 = input.uv;
-		tc1 += (i / float2(w,h)) * tex_scale;
-		tc2 -= (i / float2(w,h)) * tex_scale;
+		tc1 += (i / float2(w,h)) * texDirr;
+		tc2 -= (i / float2(w,h)) * texDirr;
 
 		color += (luminance.Sample(basicSampler, tc1)  + luminance.Sample(basicSampler, tc2))* weight;
 	}
-	color += luminance.Sample(basicSampler, input.uv);
+	color += luminance.Sample(basicSampler, input.uv) * gauss_weight(0, sigma);;
 	return color;
 }
 

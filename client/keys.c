@@ -18,6 +18,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 #include "client.h"
+#include "..\win32\winquake.h"
 
 /*
 
@@ -737,6 +738,7 @@ Called by the system between frames for both key up and key down events
 Should NOT be called during an interrupt!
 ===================
 */
+qboolean	forcemouseactive;
 void Key_Event (int key, qboolean down, unsigned time)
 {
 	char	*kb;
@@ -772,7 +774,29 @@ void Key_Event (int key, qboolean down, unsigned time)
 	}
 
 	if (key == K_SHIFT)
+	{
 		shift_down = down;
+		if (down)
+		{
+			if (forcemouseactive)
+			{
+				if (!mouseactive)
+				{
+					IN_ActivateMouse();
+					forcemouseactive = False;
+				}
+			}
+			else
+				if (mouseactive)
+				{
+					IN_DeactivateMouse();
+					forcemouseactive = True;
+				}
+			}
+			
+             			
+		
+	}
 
 	// console key is hardcoded, so the user can never unbind it
 	if (key == '`' || key == '~')

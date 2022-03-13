@@ -175,15 +175,14 @@ void IN_ActivateMouse (void)
 	window_center_x = (window_rect.right + window_rect.left)/2;
 	window_center_y = (window_rect.top + window_rect.bottom)/2;
 
-	SetCursorPos (window_center_x, window_center_y);
+	//SetCursorPos (window_center_x, window_center_y);
 
 	old_x = window_center_x;
 	old_y = window_center_y;
 
 	SetCapture ( cl_hwnd );
 	ClipCursor (&window_rect);
-	while (ShowCursor (FALSE) >= 0)
-		;
+	while (ShowCursor (FALSE) >= 0);
 }
 
 
@@ -439,8 +438,8 @@ void IN_Frame (void)
 			return;
 		}
 	}
-
-	IN_ActivateMouse ();
+	if (!forcemouseactive)
+		IN_ActivateMouse ();
 }
 
 /*

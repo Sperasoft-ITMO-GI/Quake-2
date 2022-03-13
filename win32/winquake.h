@@ -39,6 +39,11 @@ extern qboolean		ActiveApp, Minimized;
 
 void IN_Activate (qboolean active);
 void IN_MouseEvent (int mstate);
+void IN_ActivateMouse (void);
+void IN_DeactivateMouse (void);
 
 extern int		window_center_x, window_center_y;
 extern RECT		window_rect;
+
+extern qboolean	mouseactive;	// False when not focus app
+extern qboolean	forcemouseactive;	// False when not focus app

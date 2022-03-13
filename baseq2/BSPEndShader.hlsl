@@ -51,7 +51,7 @@ float4 psIn(PSIn input) : SV_Target
 #ifdef ALPHAONLY
 #ifdef ALPHA
     float4 alphaColor = alphaSurfaces.Sample(basicSampler, texCoord);
-    alphaColor.w = 0.3;
+    //alphaColor.w = 0.3;
     return alphaColor;
 #endif
 	return 0;
