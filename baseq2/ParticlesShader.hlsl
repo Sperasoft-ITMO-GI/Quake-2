@@ -23,7 +23,7 @@ PSIn vsIn(VSIn input) {
 
 	float4 worldPosition = float4(input.pos, 1);
 
-	vso.pos = mul(worldPosition, ParticlesCB.view);
+	vso.pos = mul(worldPosition, mainConstants.view);
 
 	vso.color = input.color;
 	return vso;
@@ -32,7 +32,7 @@ PSIn vsIn(VSIn input) {
 GSOut CreateQuadVertex(PSIn input, float2 offset) {
 	GSOut gso = (GSOut)0;
 	input.pos.xy += offset;
-	gso.pos = mul(input.pos, ParticlesCB.projection);
+	gso.pos = mul(input.pos, mainConstants.projection);
 	gso.color = input.color;
 	return gso;
 }

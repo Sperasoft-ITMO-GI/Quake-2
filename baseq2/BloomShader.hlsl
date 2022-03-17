@@ -20,12 +20,7 @@ PSIn vsIn(VSIn input) {
 	return output;
 }
 
-#ifdef THRESHOLD
-Texture2D<float> luminance : register(t0);
-Texture2D<float4> diffuseColor : register(t1);
-#else
-Texture2D<float4>  luminance : register(t0);
-#endif
+Texture2D<float4> bloomColor : register(t1);
 
 SamplerState basicSampler : register(s0);
 
@@ -73,13 +68,18 @@ float4 psIn(PSIn input) : SV_Target
 }
 #endif
 
-
 #ifdef THRESHOLD
+
+float CalcLuminance(float3 color)
+{
+	return max(dot(color, float3(0.299f, 0.587f, 0.114f)), 0.0001f);
+}
 float4 psIn(PSIn input) : SV_Target
 {
-	float lum = luminance.Sample(basicSampler, input.uv);
+	float4 color =  bloomColor.Sample(basicSampler, input.uv);
+	float lum =  CalcLuminance(color);
 	if (lum > BloomCosntants.threshold)
-		return diffuseColor.Sample(basicSampler, input.uv)*lum;
+		return color * lum;
 	else
 		return 0;
 }
@@ -88,6 +88,6 @@ float4 psIn(PSIn input) : SV_Target
 #ifdef END
 float4 psIn(PSIn input) : SV_Target
 {
-	return luminance.Sample(basicSampler, input.uv) * BloomCosntants.intensity;
+	return bloomColor.Sample(basicSampler, input.uv) * BloomCosntants.intensity;
 }
 #endif
