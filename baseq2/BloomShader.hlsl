@@ -20,7 +20,7 @@ PSIn vsIn(VSIn input) {
 	return output;
 }
 
-Texture2D<float4> bloomColor : register(t1);
+Texture2D bloomColor : register(t0);
 
 SamplerState basicSampler : register(s0);
 
@@ -36,7 +36,7 @@ float4 gauss(in PSIn input, in float2 texDirr, in float sigma)
 	float4 color = 0;
 
 	float w,h;
-	luminance.GetDimensions(w,h);
+	bloomColor.GetDimensions(w,h);
 
 	for (int i = 1; i <= BloomCosntants.radius; i++)
 	{
@@ -48,9 +48,9 @@ float4 gauss(in PSIn input, in float2 texDirr, in float sigma)
 		tc1 += (i / float2(w,h)) * texDirr;
 		tc2 -= (i / float2(w,h)) * texDirr;
 
-		color += (luminance.Sample(basicSampler, tc1)  + luminance.Sample(basicSampler, tc2))* weight;
+		color += (bloomColor.Sample(basicSampler, tc1)  + bloomColor.Sample(basicSampler, tc2))* weight;
 	}
-	color += luminance.Sample(basicSampler, input.uv) * gauss_weight(0, sigma);;
+	color += bloomColor.Sample(basicSampler, input.uv) * gauss_weight(0, sigma);;
 	return color;
 }
 
@@ -78,6 +78,7 @@ float4 psIn(PSIn input) : SV_Target
 {
 	float4 color =  bloomColor.Sample(basicSampler, input.uv);
 	float lum =  CalcLuminance(color);
+	lum = saturate(lum*4-3);
 	if (lum > BloomCosntants.threshold)
 		return color * lum;
 	else

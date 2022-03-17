@@ -25,11 +25,19 @@ PSIn vsIn(VSIn input)
 TextureCube tex : register(t0);
 SamplerState sam : register(s0);
 
-float4 psIn(PSIn input) : SV_TARGET
-{
-#ifdef RED
-    return float4(1,0,0,1);
-#endif
+struct PSOut {
+    float4 color   : SV_Target0;
+    float4 light   : SV_Target1;
+};
 
-    return tex.Sample(sam, input.worldPos);
+
+PSOut psIn(PSIn input) : SV_TARGET
+{
+    PSOut pso = (PSOut)0;
+    pso.light = float4(1,1,1,1);
+#ifdef RED
+    return pso;
+#endif
+    pso.color = tex.Sample(sam, input.worldPos);
+    return pso;
 }

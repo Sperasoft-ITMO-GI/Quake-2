@@ -7,19 +7,19 @@ struct VSIn {
 	float4 color   : Color;
 };
 
-struct PSIn {
+struct GSIn {
 	float4 pos     : Position;
 	float4 color   : Color;
 };
 
-struct GSOut {
+struct PSIn {
 	float4 pos     : SV_Position;
 	float4 color   : Color;
 };
 
 
-PSIn vsIn(VSIn input) {
-	PSIn vso;
+GSIn vsIn(VSIn input) {
+	GSIn vso;
 
 	float4 worldPosition = float4(input.pos, 1);
 
@@ -29,8 +29,8 @@ PSIn vsIn(VSIn input) {
 	return vso;
 }
 
-GSOut CreateQuadVertex(PSIn input, float2 offset) {
-	GSOut gso = (GSOut)0;
+PSIn CreateQuadVertex(GSIn input, float2 offset) {
+	PSIn gso = (PSIn)0;
 	input.pos.xy += offset;
 	gso.pos = mul(input.pos, mainConstants.projection);
 	gso.color = input.color;
@@ -39,7 +39,7 @@ GSOut CreateQuadVertex(PSIn input, float2 offset) {
 
 
 [maxvertexcount(4)]
-void gsIn(point PSIn input[1], inout TriangleStream<GSOut> tristream) {
+void gsIn(point GSIn input[1], inout TriangleStream<PSIn> tristream) {
 	tristream.Append(CreateQuadVertex(input[0], float2(1, -1)));
 	tristream.Append(CreateQuadVertex(input[0], float2(1, 1)));
 	tristream.Append(CreateQuadVertex(input[0], float2(-1, -1)));
@@ -50,7 +50,7 @@ void gsIn(point PSIn input[1], inout TriangleStream<GSOut> tristream) {
 
 
 
-float4 psIn(GSOut input) : SV_Target
+float4 psIn(PSIn input) : SV_Target
 {
 #ifdef RED
 	return float4(1.0, 0,0, 1.0f);
