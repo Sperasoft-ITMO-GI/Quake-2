@@ -125,6 +125,7 @@ typedef struct
 
 	int			time;			// this is the time value that the client
 								// is rendering at.  always <= cls.realtime
+	float		old_lerpfrac;		
 	float		lerpfrac;		// between oldframe and frame
 
 	refdef_t	refdef;

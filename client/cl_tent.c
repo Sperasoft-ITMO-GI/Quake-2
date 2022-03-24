@@ -1685,6 +1685,8 @@ void CL_AddExplosions (void)
 			f = 0;
 		ent->frame = ex->baseframe + f + 1;
 		ent->oldframe = ex->baseframe + f;
+		
+		ent->old_backlerp = 1.0 - cl.old_lerpfrac;
 		ent->backlerp = 1.0 - cl.lerpfrac;
 
 		V_AddEntity (ent);

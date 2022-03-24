@@ -64,8 +64,10 @@ typedef struct entity_s
 	/*
 	** misc
 	*/
-	float	backlerp;				// 0.0 = current, 1.0 = old
-	int		skinnum;				// also used as RF_BEAM's palette index
+	float	 old_backlerp;			
+	qboolean isGun;				
+	float	 backlerp;				// 0.0 = current, 1.0 = old
+	int		 skinnum;				// also used as RF_BEAM's palette index
 
 	int		lightstyle;				// for flashing entities
 	float	alpha;					// ignore if RF_TRANSLUCENT isn't set

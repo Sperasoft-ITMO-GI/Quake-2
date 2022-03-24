@@ -904,6 +904,7 @@ void CL_AddPacketEntities (frame_t *frame)
 // pmm
 //======
 		ent.oldframe = cent->prev.frame;
+		ent.old_backlerp = 1.0 - cl.old_lerpfrac;
 		ent.backlerp = 1.0 - cl.lerpfrac;
 
 		if (renderfx & (RF_FRAMELERP|RF_BEAM))
@@ -1337,6 +1338,8 @@ void CL_AddViewWeapon (player_state_t *ps, player_state_t *ops)
 
 	gun.flags = RF_MINLIGHT | RF_DEPTHHACK | RF_WEAPONMODEL;
 	gun.backlerp = 1.0 - cl.lerpfrac;
+	gun.old_backlerp = 1.0 - cl.old_lerpfrac;
+	gun.isGun = True;
 	VectorCopy (gun.origin, gun.oldorigin);	// don't lerp at all
 	V_AddEntity (&gun);
 }
@@ -1440,6 +1443,7 @@ void CL_AddEntities (void)
 	if (cls.state != ca_active)
 		return;
 
+	cl.old_lerpfrac = cl.lerpfrac;
 	if (cl.time > cl.frame.servertime)
 	{
 		if (cl_showclamp->value)
