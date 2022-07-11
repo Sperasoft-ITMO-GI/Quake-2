@@ -167,6 +167,7 @@
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>.\debug\quake2.bsc</OutputFile>
+      <PreserveSbr>true</PreserveSbr>
     </Bscmake>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -487,6 +488,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="ref_dx11rg\ref_dx11rg.vcxproj">
+      <Project>{b5e22cbd-ccb5-4885-9ea6-ef5e9f267b68}</Project>
+      <Name>ref_dx11rg</Name>
+    </ProjectReference>
+    <ProjectReference Include="ref_gl\ref_gl.vcxproj">
+      <Project>{ba4bac2f-1048-47dd-b96a-d90df2d759a8}</Project>
+      <Name>ref_gl</Name>
+    </ProjectReference>
+    <ProjectReference Include="ref_soft\ref_soft.vcxproj">
+      <Project>{cc13af0c-13c7-46be-8e6f-caaf494cb2fe}</Project>
+      <Name>ref_soft</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
