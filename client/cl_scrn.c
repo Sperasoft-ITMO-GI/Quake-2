@@ -643,9 +643,9 @@ void SCR_TimeRefresh_f (void)
 	}
 	else
 	{
-		for (i=0 ; i<128 ; i++)
+		for (i=0 ; i<1000 ; i++)
 		{
-			cl.refdef.viewangles[1] = i/128.0*360.0;
+			cl.refdef.viewangles[1] = i/200.0*360.0;
 
 			re.BeginFrame( 0 );
 			re.RenderFrame (&cl.refdef);
@@ -655,7 +655,7 @@ void SCR_TimeRefresh_f (void)
 
 	stop = Sys_Milliseconds ();
 	time = (stop-start)/1000.0;
-	Com_Printf ("%f seconds (%f fps)\n", time, 128/time);
+	Com_Printf ("%f seconds (%f fps)\n", time, 1000.0/time);
 }
 
 /*

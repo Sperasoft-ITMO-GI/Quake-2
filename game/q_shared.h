@@ -602,6 +602,7 @@ typedef struct
 #define RF_SHELL_RED		1024
 #define	RF_SHELL_GREEN		2048
 #define RF_SHELL_BLUE		4096
+#define MAX_LIGHTMAPS		32
 
 //ROGUE
 #define RF_IR_VISIBLE		0x00008000		// 32768

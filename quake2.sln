@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31911.196
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ctf", "ctf\ctf.vcxproj", "{A149B455-831A-4BCC-86EC-F449001AE2FB}"
 EndProject
@@ -9,9 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "game", "game\game.vcxproj",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "quake2", "quake2.vcxproj", "{38A48DB7-7221-40E9-84E8-D58C80F60B05}"
 	ProjectSection(ProjectDependencies) = postProject
-		{BA4BAC2F-1048-47DD-B96A-D90DF2D759A8} = {BA4BAC2F-1048-47DD-B96A-D90DF2D759A8}
 		{B5E22CBD-CCB5-4885-9EA6-EF5E9F267B68} = {B5E22CBD-CCB5-4885-9EA6-EF5E9F267B68}
-		{5B77D4D8-79F4-4CEA-9D18-048502CC370E} = {5B77D4D8-79F4-4CEA-9D18-048502CC370E}
+		{BA4BAC2F-1048-47DD-B96A-D90DF2D759A8} = {BA4BAC2F-1048-47DD-B96A-D90DF2D759A8}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ref_gl", "ref_gl\ref_gl.vcxproj", "{BA4BAC2F-1048-47DD-B96A-D90DF2D759A8}"

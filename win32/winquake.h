@@ -47,3 +47,5 @@ extern RECT		window_rect;
 
 extern qboolean	mouseactive;	// False when not focus app
 extern qboolean	forcemouseactive;	// False when not focus app
+
+extern unsigned dynamicLightMapUpdateFlag;
